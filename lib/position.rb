@@ -9,6 +9,6 @@ class Position
   end
 
   def to_s
-    "#{('a'.ord + @rank).chr}#{@file + 1}"
+    "#{('a'.ord + @file).chr}#{@rank + 1}"
   end
 end
