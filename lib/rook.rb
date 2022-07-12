@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class Rook
+  attr_reader :color, :position
+
   def initialize(color, position)
     @color = color
     @position = position

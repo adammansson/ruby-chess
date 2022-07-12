@@ -2,6 +2,6 @@
 
 class Empty
   def to_s
-    'O'
+    ' '
   end
 end
