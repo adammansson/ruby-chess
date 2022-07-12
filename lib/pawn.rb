@@ -1,8 +1,9 @@
 # frozen_string_literal: true
 
 class Pawn
-  def initialize(color)
+  def initialize(color, position)
     @color = color
+    @position = position
   end
 
   def to_s
