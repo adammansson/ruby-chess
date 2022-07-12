@@ -8,6 +8,7 @@ require_relative 'knight'
 require_relative 'pawn'
 require_relative 'empty'
 require_relative 'off_board'
+require_relative 'position'
 
 class Board
   def initialize(
@@ -35,37 +36,45 @@ class Board
   end
 
   def self.position_from_fen(position_string)
-    position_string.split('/').map do |rank|
+    position_string.split('/').map.with_index do |rank, rank_nbr|
+      file_nbr = 0
       rank.split('').map do |char|
-        case char
-        when 'K'
-          King.new('white')
-        when 'k'
-          King.new('black')
-        when 'Q'
-          Queen.new('white')
-        when 'q'
-          Queen.new('black')
-        when 'R'
-          Rook.new('white')
-        when 'r'
-          Rook.new('black')
-        when 'B'
-          Bishop.new('white')
-        when 'b'
-          Bishop.new('black')
-        when 'N'
-          Knight.new('white')
-        when 'n'
-          Knight.new('black')
-        when 'P'
-          Pawn.new('white')
-        when 'p'
-          Pawn.new('black')
-        else
-          [Empty.new] * char.to_i
-        end
+        piece = piece_from_char(char, 7 - rank_nbr, file_nbr)
+        file_nbr += char.between?('1', '8') ? char.to_i : 1
+        piece
       end.flatten
+    end
+  end
+
+  def self.piece_from_char(char, rank, file)
+    position = Position.new(rank, file)
+    case char
+    when 'K'
+      King.new('white', position)
+    when 'k'
+      King.new('black', position)
+    when 'Q'
+      Queen.new('white', position)
+    when 'q'
+      Queen.new('black', position)
+    when 'R'
+      Rook.new('white', position)
+    when 'r'
+      Rook.new('black', position)
+    when 'B'
+      Bishop.new('white', position)
+    when 'b'
+      Bishop.new('black', position)
+    when 'N'
+      Knight.new('white', position)
+    when 'n'
+      Knight.new('black', position)
+    when 'P'
+      Pawn.new('white', position)
+    when 'p'
+      Pawn.new('black', position)
+    else
+      [Empty.new] * char.to_i
     end
   end
 
@@ -76,8 +85,8 @@ class Board
   end
 
   def to_s
-    @squares.map do |rank|
-      rank.map(&:to_s).join(' ')
-    end.join("\n")
+    @squares[2..9].map.with_index do |rank, rank_nbr|
+      "#{8 - rank_nbr} #{rank[2..9].map(&:to_s).join(' ')}"
+    end.join("\n") + "\n  A B C D E F G H"
   end
 end
