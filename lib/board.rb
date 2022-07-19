@@ -107,11 +107,11 @@ class Board
     set(piece.position, Empty.new('e'))
     set(dest, piece)
     piece.position.update(dest)
-    if @active_color == 'w'
-      @active_color = 'b'
-    else
-      @active_color = 'w'
-    end
+    @active_color = if @active_color == 'w'
+                      'b'
+                    else
+                      'w'
+                    end
   end
 
   def to_s

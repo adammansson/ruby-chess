@@ -25,10 +25,8 @@ class Knight
         if %w[b e].include?(board.get(@position.add(tform[0], tform[1])).color)
           moves << @position.add(tform[0], tform[1])
         end
-      else
-        if %w[w e].include?(board.get(@position.add(tform[0], tform[1])).color)
-          moves << @position.add(tform[0], tform[1])
-        end
+      elsif %w[w e].include?(board.get(@position.add(tform[0], tform[1])).color)
+        moves << @position.add(tform[0], tform[1])
       end
     end
     moves

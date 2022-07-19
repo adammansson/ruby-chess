@@ -42,7 +42,7 @@ class Game
       next unless valid_piece_to_move?(piece)
 
       dest = self.class.get_position('Enter the square you want to move the piece to (eg. e4): ')
-      if !@board.valid_move?(piece, dest)
+      unless @board.valid_move?(piece, dest)
         puts 'Invalid move'
         next
       end

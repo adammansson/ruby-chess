@@ -31,8 +31,8 @@ class Position
     end
   end
 
-  def ==(position)
-    @rank == position.rank && @file == position.file
+  def ==(other)
+    @rank == other.rank && @file == other.file
   end
 
   def add(rank, file)

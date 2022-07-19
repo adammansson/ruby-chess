@@ -13,29 +13,17 @@ class Pawn
     if @color == 'w'
       if board.get(@position.add(1, 0)).is_a?(Empty)
         moves << @position.add(1, 0)
-        if @position.rank == 1 && board.get(@position.add(2, 0)).is_a?(Empty)
-          moves << @position.add(2, 0)
-        end
+        moves << @position.add(2, 0) if @position.rank == 1 && board.get(@position.add(2, 0)).is_a?(Empty)
       end
-      if board.get(@position.add(1, 1)).color == 'b'
-        moves << @position.add(1, 1)
-      end
-      if board.get(@position.add(1, -1)).color == 'b'
-        moves << @position.add(1, -1)
-      end
+      moves << @position.add(1, 1) if board.get(@position.add(1, 1)).color == 'b'
+      moves << @position.add(1, -1) if board.get(@position.add(1, -1)).color == 'b'
     else
       if board.get(@position.add(-1, 0)).is_a?(Empty)
         moves << @position.add(-1, 0)
-        if @position.rank == 6 && board.get(@position.add(-2, 0)).is_a?(Empty)
-          moves << @position.add(-2, 0)
-        end
+        moves << @position.add(-2, 0) if @position.rank == 6 && board.get(@position.add(-2, 0)).is_a?(Empty)
       end
-      if board.get(@position.add(-1, 1)).color == 'w'
-        moves << @position.add(-1, 1)
-      end
-      if board.get(@position.add(-1, -1)).color == 'w'
-        moves << @position.add(-1, -1)
-      end
+      moves << @position.add(-1, 1) if board.get(@position.add(-1, 1)).color == 'w'
+      moves << @position.add(-1, -1) if board.get(@position.add(-1, -1)).color == 'w'
     end
     moves
   end

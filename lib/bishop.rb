@@ -2,8 +2,8 @@
 
 class Bishop
   attr_reader :color, :position
-  
-  @@TRANSFORMATIONS = 
+
+  @@TRANSFORMATIONS =
     [[1, 1],
      [-1, 1],
      [-1, -1],
@@ -20,13 +20,9 @@ class Bishop
       dir = tform
       loop do
         if @color == 'w'
-          if %w[w o].include?(board.get(@position.add(dir[0], dir[1])).color)
-            break
-          end
-        else
-          if %w[b o].include?(board.get(@position.add(dir[0], dir[1])).color)
-            break
-          end
+          break if %w[w o].include?(board.get(@position.add(dir[0], dir[1])).color)
+        elsif %w[b o].include?(board.get(@position.add(dir[0], dir[1])).color)
+          break
         end
         moves << @position.add(dir[0], dir[1])
         dir = [dir[0] + tform[0], dir[1] + tform[1]]
