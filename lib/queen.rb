@@ -8,8 +8,12 @@ class Queen
     @position = position
   end
 
+  def valid_move?(_board, _dest)
+    true
+  end
+
   def to_s
-    if @color == 'white'
+    if @color == 'w'
       "\u265B".encode('utf-8')
     else
       "\u2655".encode('utf-8')

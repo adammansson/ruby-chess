@@ -11,6 +11,8 @@ require_relative 'off_board'
 require_relative 'position'
 
 class Board
+  attr_reader :active_color, :castling_availability, :en_passant_target_square
+
   def initialize(
     squares,
     active_color,
@@ -50,38 +52,66 @@ class Board
     position = Position.new(rank, file)
     case char
     when 'K'
-      King.new('white', position)
+      King.new('w', position)
     when 'k'
-      King.new('black', position)
+      King.new('b', position)
     when 'Q'
-      Queen.new('white', position)
+      Queen.new('w', position)
     when 'q'
-      Queen.new('black', position)
+      Queen.new('b', position)
     when 'R'
-      Rook.new('white', position)
+      Rook.new('w', position)
     when 'r'
-      Rook.new('black', position)
+      Rook.new('b', position)
     when 'B'
-      Bishop.new('white', position)
+      Bishop.new('w', position)
     when 'b'
-      Bishop.new('black', position)
+      Bishop.new('b', position)
     when 'N'
-      Knight.new('white', position)
+      Knight.new('w', position)
     when 'n'
-      Knight.new('black', position)
+      Knight.new('b', position)
     when 'P'
-      Pawn.new('white', position)
+      Pawn.new('w', position)
     when 'p'
-      Pawn.new('black', position)
+      Pawn.new('b', position)
     else
-      [Empty.new] * char.to_i
+      [Empty.new('e')] * char.to_i
     end
   end
 
   def self.pad_squares(position_array)
     horizontal_pad =
-      position_array.map { |rank| [OffBoard.new] * 2 + rank + [OffBoard.new] * 2 }
-    [[OffBoard.new] * 12] * 2 + horizontal_pad + [[OffBoard.new] * 12] * 2
+      position_array.map { |rank| [OffBoard.new('o')] * 2 + rank + [OffBoard.new('o')] * 2 }
+    [[OffBoard.new('o')] * 12] * 2 + horizontal_pad + [[OffBoard.new('o')] * 12] * 2
+  end
+
+  def get(position)
+    # Taking into account OffBoard and reverse order of ranks
+    @squares[9 - position.rank][position.file + 2]
+  end
+
+  def set(position, piece)
+    # Taking into account OffBoard and reverse order of ranks
+    @squares[9 - position.rank][position.file + 2] = piece
+    piece
+  end
+
+  def valid_move?(piece, dest)
+    p piece.valid_moves(self)
+    p dest
+    piece.valid_moves(self).include?(dest)
+  end
+
+  def make_move(piece, dest)
+    set(piece.position, Empty.new('e'))
+    set(dest, piece)
+    piece.position.update(dest)
+    if @active_color == 'w'
+      @active_color = 'b'
+    else
+      @active_color = 'w'
+    end
   end
 
   def to_s
