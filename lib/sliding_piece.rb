@@ -51,7 +51,7 @@ end
 
 class Queen < SlidingPiece
   def self.transformations
-    DIAGONALS + ORTHGONALS
+    DIAGONALS + ORTHOGONALS
   end
 
   def to_s

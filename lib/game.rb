@@ -24,10 +24,10 @@ class Game
     if piece.is_a?(Empty)
       puts 'No piece on that square'
       false
-    elsif piece.color == 'black' && @board.active_color == 'w'
+    elsif piece.color == :black && @board.active_color == 'w'
       puts "You can't move a black piece"
       false
-    elsif piece.color == 'white' && @board.active_color == 'b'
+    elsif piece.color == :white && @board.active_color == 'b'
       puts "You can't move a white piece"
       false
     else

@@ -3,8 +3,8 @@
 class Piece
   attr_reader :color, :position
 
-  ORTHOGONALS = [[1, 0], [-1, 0], [0, 1], [0, -1]]
-  DIAGONALS   = [[1, 1], [-1, 1], [-1, -1], [1, -1]]
+  ORTHOGONALS = [[1, 0], [-1, 0], [0, 1], [0, -1]].freeze
+  DIAGONALS   = [[1, 1], [-1, 1], [-1, -1], [1, -1]].freeze
 
   def initialize(color, position)
     @color = color
