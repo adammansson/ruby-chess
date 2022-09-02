@@ -1,11 +1,8 @@
 # frozen_string_literal: true
 
-require_relative 'king'
-require_relative 'queen'
-require_relative 'rook'
-require_relative 'bishop'
-require_relative 'knight'
-require_relative 'pawn'
+require_relative 'piece'
+require_relative 'sliding_piece'
+require_relative 'stepping_piece'
 require_relative 'empty'
 require_relative 'off_board'
 require_relative 'position'
@@ -52,38 +49,38 @@ class Board
     position = Position.new(rank, file)
     case char
     when 'K'
-      King.new('w', position)
+      King.new(:white, position)
     when 'k'
-      King.new('b', position)
+      King.new(:black, position)
     when 'Q'
-      Queen.new('w', position)
+      Queen.new(:white, position)
     when 'q'
-      Queen.new('b', position)
+      Queen.new(:black, position)
     when 'R'
-      Rook.new('w', position)
+      Rook.new(:white, position)
     when 'r'
-      Rook.new('b', position)
+      Rook.new(:black, position)
     when 'B'
-      Bishop.new('w', position)
+      Bishop.new(:white, position)
     when 'b'
-      Bishop.new('b', position)
+      Bishop.new(:black, position)
     when 'N'
-      Knight.new('w', position)
+      Knight.new(:white, position)
     when 'n'
-      Knight.new('b', position)
+      Knight.new(:black, position)
     when 'P'
-      Pawn.new('w', position)
+      Pawn.new(:white, position)
     when 'p'
-      Pawn.new('b', position)
+      Pawn.new(:black, position)
     else
-      [Empty.new('e')] * char.to_i
+      [Empty.new(:empty)] * char.to_i
     end
   end
 
   def self.pad_squares(position_array)
     horizontal_pad =
-      position_array.map { |rank| [OffBoard.new('o')] * 2 + rank + [OffBoard.new('o')] * 2 }
-    [[OffBoard.new('o')] * 12] * 2 + horizontal_pad + [[OffBoard.new('o')] * 12] * 2
+      position_array.map { |rank| [OffBoard.new(:off_board)] * 2 + rank + [OffBoard.new(:off_board)] * 2 }
+    [[OffBoard.new(:off_board)] * 12] * 2 + horizontal_pad + [[OffBoard.new(:off_board)] * 12] * 2
   end
 
   def get(position)
@@ -98,13 +95,12 @@ class Board
   end
 
   def valid_move?(piece, dest)
-    p piece.valid_moves(self)
-    p dest
-    piece.valid_moves(self).include?(dest)
+    p piece.moves(self)
+    piece.moves(self).include?(dest)
   end
 
   def make_move(piece, dest)
-    set(piece.position, Empty.new('e'))
+    set(piece.position, Empty.new(:empty))
     set(dest, piece)
     piece.position.update(dest)
     @active_color = if @active_color == 'w'
