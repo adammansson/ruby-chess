@@ -3,6 +3,7 @@
 require_relative 'board'
 require_relative 'position'
 
+# Class for playing a game of chess
 class Game
   def initialize
     @board = Board.from_fen('rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1')

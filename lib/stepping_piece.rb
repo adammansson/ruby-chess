@@ -2,6 +2,7 @@
 
 require_relative 'piece'
 
+# Superclass for stepping chess pieces
 class SteppingPiece < Piece
   def moves(board)
     moves = []
@@ -14,30 +15,24 @@ class SteppingPiece < Piece
   end
 end
 
+# Knight chess piece
 class Knight < SteppingPiece
   def self.transformations
     [[2, 1], [1, 2], [2, -1], [1, -2], [-1, -2], [-2, -1], [-2, 1], [-1, 2]]
   end
 
-  def to_s
-    if @color == :white
-      "\u265E".encode('utf-8')
-    else
-      "\u2658".encode('utf-8')
-    end
+  def symname
+    @color.to_s + self.class.name.downcase
   end
 end
 
+# King chess piece
 class King < SteppingPiece
   def self.transformations
     DIAGONALS + ORTHOGONALS
   end
 
-  def to_s
-    if @color == :white
-      "\u265A".encode('utf-8')
-    else
-      "\u2654".encode('utf-8')
-    end
+  def symname
+    @color.to_s + self.class.name.downcase
   end
 end

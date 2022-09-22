@@ -1,10 +1,48 @@
 # frozen_string_literal: true
 
+require_relative 'util'
+
+# Superclass for all chess pieces
 class Piece
   attr_reader :color, :position
 
   ORTHOGONALS = [[1, 0], [-1, 0], [0, 1], [0, -1]].freeze
   DIAGONALS   = [[1, 1], [-1, 1], [-1, -1], [1, -1]].freeze
+
+  SYMBOLS     = {
+    whiteking: '♚',
+    whitequeen: '♛',
+    whiterook: '♜',
+    whitebishop: '♝',
+    whiteknight: '♞',
+    whitepawn: '♟',
+    blackking: '♔',
+    blackqueen: '♕',
+    blackrook: '♖',
+    blackbishop: '♗',
+    blackknight: '♘',
+    blackpawn: '♙'
+  }.freeze
+
+  def self.from_char(char, position)
+    color = Util.upper?(char) ? :white : :black
+    case char.upcase
+    when 'K'
+      King.new(color, position)
+    when 'Q'
+      Queen.new(color, position)
+    when 'R'
+      Rook.new(color, position)
+    when 'B'
+      Bishop.new(color, position)
+    when 'N'
+      Knight.new(color, position)
+    when 'P'
+      Pawn.new(color, position)
+    else
+      [Empty.new] * char.to_i
+    end
+  end
 
   def initialize(color, position)
     @color = color
@@ -12,12 +50,15 @@ class Piece
   end
 
   def opposite_color
-    return :black if @color == :white
+    @color == :white ? :black : :white
+  end
 
-    :white
+  def to_s
+    SYMBOLS[symname.to_sym]
   end
 end
 
+# Pawn chess piece
 class Pawn < Piece
   def moves(board)
     moves = []
@@ -39,11 +80,7 @@ class Pawn < Piece
     moves
   end
 
-  def to_s
-    if @color == :white
-      "\u265F".encode('utf-8')
-    else
-      "\u2659".encode('utf-8')
-    end
+  def symname
+    @color.to_s + self.class.name.downcase
   end
 end

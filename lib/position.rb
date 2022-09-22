@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# Postion on a chess board
 class Position
   attr_reader :rank, :file
 

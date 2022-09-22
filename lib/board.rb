@@ -7,6 +7,7 @@ require_relative 'empty'
 require_relative 'off_board'
 require_relative 'position'
 
+# Chess board
 class Board
   attr_reader :active_color, :castling_availability, :en_passant_target_square
 
@@ -38,49 +39,18 @@ class Board
     position_string.split('/').map.with_index do |rank, rank_nbr|
       file_nbr = 0
       rank.split('').map do |char|
-        piece = piece_from_char(char, 7 - rank_nbr, file_nbr)
+        position = Position.new(7 - rank_nbr, file_nbr)
+        piece = Piece.from_char(char, position)
         file_nbr += char.between?('1', '8') ? char.to_i : 1
         piece
       end.flatten
     end
   end
 
-  def self.piece_from_char(char, rank, file)
-    position = Position.new(rank, file)
-    case char
-    when 'K'
-      King.new(:white, position)
-    when 'k'
-      King.new(:black, position)
-    when 'Q'
-      Queen.new(:white, position)
-    when 'q'
-      Queen.new(:black, position)
-    when 'R'
-      Rook.new(:white, position)
-    when 'r'
-      Rook.new(:black, position)
-    when 'B'
-      Bishop.new(:white, position)
-    when 'b'
-      Bishop.new(:black, position)
-    when 'N'
-      Knight.new(:white, position)
-    when 'n'
-      Knight.new(:black, position)
-    when 'P'
-      Pawn.new(:white, position)
-    when 'p'
-      Pawn.new(:black, position)
-    else
-      [Empty.new(:empty)] * char.to_i
-    end
-  end
-
   def self.pad_squares(position_array)
     horizontal_pad =
-      position_array.map { |rank| [OffBoard.new(:off_board)] * 2 + rank + [OffBoard.new(:off_board)] * 2 }
-    [[OffBoard.new(:off_board)] * 12] * 2 + horizontal_pad + [[OffBoard.new(:off_board)] * 12] * 2
+      position_array.map { |rank| [OffBoard.new] * 2 + rank + [OffBoard.new] * 2 }
+    [[OffBoard.new] * 12] * 2 + horizontal_pad + [[OffBoard.new] * 12] * 2
   end
 
   def get(position)
@@ -100,7 +70,7 @@ class Board
   end
 
   def make_move(piece, dest)
-    set(piece.position, Empty.new(:empty))
+    set(piece.position, Empty.new)
     set(dest, piece)
     piece.position.update(dest)
     @active_color = if @active_color == 'w'
