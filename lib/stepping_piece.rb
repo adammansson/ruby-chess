@@ -20,19 +20,11 @@ class Knight < SteppingPiece
   def self.transformations
     [[2, 1], [1, 2], [2, -1], [1, -2], [-1, -2], [-2, -1], [-2, 1], [-1, 2]]
   end
-
-  def symname
-    @color.to_s + self.class.name.downcase
-  end
 end
 
 # King chess piece
 class King < SteppingPiece
   def self.transformations
     DIAGONALS + ORTHOGONALS
-  end
-
-  def symname
-    @color.to_s + self.class.name.downcase
   end
 end

@@ -27,10 +27,6 @@ class Bishop < SlidingPiece
   def self.transformations
     DIAGONALS
   end
-
-  def symname
-    @color.to_s + self.class.name.downcase
-  end
 end
 
 # Rook chess piece
@@ -38,19 +34,11 @@ class Rook < SlidingPiece
   def self.transformations
     ORTHOGONALS
   end
-
-  def symname
-    @color.to_s + self.class.name.downcase
-  end
 end
 
 # Queen chess piece
 class Queen < SlidingPiece
   def self.transformations
     DIAGONALS + ORTHOGONALS
-  end
-
-  def symname
-    @color.to_s + self.class.name.downcase
   end
 end

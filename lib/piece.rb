@@ -54,7 +54,8 @@ class Piece
   end
 
   def to_s
-    SYMBOLS[symname.to_sym]
+    name = @color.to_s + self.class.name.downcase
+    SYMBOLS[name.to_sym]
   end
 end
 
@@ -78,9 +79,5 @@ class Pawn < Piece
       moves << @position.add(-1, -1) if board.get(@position.add(-1, -1)).color == opposite_color
     end
     moves
-  end
-
-  def symname
-    @color.to_s + self.class.name.downcase
   end
 end
