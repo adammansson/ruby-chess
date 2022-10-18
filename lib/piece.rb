@@ -9,21 +9,6 @@ class Piece
   ORTHOGONALS = [[1, 0], [-1, 0], [0, 1], [0, -1]].freeze
   DIAGONALS   = [[1, 1], [-1, 1], [-1, -1], [1, -1]].freeze
 
-  SYMBOLS     = {
-    whiteking: '♚',
-    whitequeen: '♛',
-    whiterook: '♜',
-    whitebishop: '♝',
-    whiteknight: '♞',
-    whitepawn: '♟',
-    blackking: '♔',
-    blackqueen: '♕',
-    blackrook: '♖',
-    blackbishop: '♗',
-    blackknight: '♘',
-    blackpawn: '♙'
-  }.freeze
-
   def self.from_char(char, position)
     color = Util.upper?(char) ? :white : :black
     case char.upcase
@@ -52,11 +37,6 @@ class Piece
   def opposite_color
     @color == :white ? :black : :white
   end
-
-  def to_s
-    name = @color.to_s + self.class.name.downcase
-    SYMBOLS[name.to_sym]
-  end
 end
 
 # Pawn chess piece
@@ -79,5 +59,9 @@ class Pawn < Piece
       moves << @position.add(-1, -1) if board.get(@position.add(-1, -1)).color == opposite_color
     end
     moves
+  end
+
+  def to_s
+    @color == :white ? '♟' : '♙'
   end
 end

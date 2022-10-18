@@ -27,6 +27,10 @@ class Bishop < SlidingPiece
   def self.transformations
     DIAGONALS
   end
+
+  def to_s
+    @color == :white ? '♝' : '♗'
+  end
 end
 
 # Rook chess piece
@@ -34,11 +38,19 @@ class Rook < SlidingPiece
   def self.transformations
     ORTHOGONALS
   end
+
+  def to_s
+    @color == :white ? '♜' : '♖'
+  end
 end
 
 # Queen chess piece
 class Queen < SlidingPiece
   def self.transformations
     DIAGONALS + ORTHOGONALS
+  end
+
+  def to_s
+    @color == :white ? '♛' : '♕'
   end
 end
